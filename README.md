@@ -1,10 +1,10 @@
-# 💊 Projeto BD Polifarmácia
+# Projeto de Banco de Dados
 
 Modelagem de efeitos colaterais de polifarmácia (uso simultâneo de múltiplos medicamentos) usando bancos relacional e de grafos.
 
 > Baseado em: Zitnik et al. (2018). *"Modeling polypharmacy side effects with graph convolutional networks"*, Bioinformatics 34(13). Datasets do projeto [DECAGON/SNAP Stanford](http://snap.stanford.edu/decagon).
 
-## 📋 Visão Geral
+## Visão Geral
 
 | Componente | Tecnologia |
 |-----------|-----------|
@@ -13,7 +13,7 @@ Modelagem de efeitos colaterais de polifarmácia (uso simultâneo de múltiplos 
 | ETL | Python 3.11+ (pandas, psycopg2, neo4j) |
 | Versionamento | Git/GitHub |
 
-## 🗂 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 projeto-bd-polifarmacia/
@@ -41,7 +41,7 @@ projeto-bd-polifarmacia/
     └── schema.md                      # Documentação do modelo de dados
 ```
 
-## 🚀 Configuração do Ambiente
+## Configuração do Ambiente
 
 ### 1. Pré-requisitos
 
@@ -115,7 +115,7 @@ createdb polifarmacia
 psql -U postgres -c "CREATE DATABASE polifarmacia;"
 ```
 
-## 📦 Carga de Dados
+## Carga de Dados
 
 ### PostgreSQL (carga relacional)
 
@@ -147,7 +147,7 @@ O script:
 python etl/load_graph.py
 ```
 
-## 📊 Modelo de Dados
+## Modelo de Dados
 
 Consulte a documentação completa em [`docs/schema.md`](docs/schema.md).
 
@@ -161,7 +161,7 @@ Consulte a documentação completa em [`docs/schema.md`](docs/schema.md).
 | Mono (SIDER/OFFSIDES) | ~487.000 | Efeitos de drogas individuais |
 | Effect Categories | 964 | Classificação dos efeitos |
 
-## 🧪 Queries de Exemplo
+## Queries de Exemplo
 
 ### PostgreSQL
 
@@ -193,20 +193,11 @@ MATCH path = shortestPath(
 RETURN path;
 ```
 
-## 📅 Cronograma
-
-| Marco | Data | Status |
-|-------|------|--------|
-| Modelo conceitual + estrutura + ambiente | 08/06/2026 | 🔄 Em andamento |
-| Apresentação final | 22/06/2026 | ⏳ Pendente |
-
-## 📚 Referências
+## Referências
 
 - Zitnik, M., Agrawal, M., & Leskovec, J. (2018). *Modeling polypharmacy side effects with graph convolutional networks*. Bioinformatics, 34(13), i457–i466.
 - [DECAGON — SNAP Stanford](http://snap.stanford.edu/decagon)
 - [STITCH Database](http://stitch.embl.de/)
 - [SIDER — Side Effect Resource](http://sideeffects.embl.de/)
-
-## 📝 Licença
 
 Projeto acadêmico — uso educacional.
