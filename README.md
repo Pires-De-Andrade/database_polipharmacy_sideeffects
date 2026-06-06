@@ -2,7 +2,7 @@
 
 Modelagem de efeitos colaterais de polifarmácia (uso simultâneo de múltiplos medicamentos) usando bancos relacional e de grafos.
 
-> Baseado em: Zitnik et al. (2018). *"Modeling polypharmacy side effects with graph convolutional networks"*, Bioinformatics 34(13). Datasets do projeto [DECAGON/SNAP Stanford](http://snap.stanford.edu/decagon).
+Baseado em: Zitnik et al. (2018). *"Modeling polypharmacy side effects with graph convolutional networks"*, Bioinformatics 34(13). Datasets do projeto [DECAGON/SNAP Stanford](http://snap.stanford.edu/decagon).
 
 ## Visão Geral
 
