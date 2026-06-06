@@ -1,0 +1,2 @@
+-- Diretório para queries Cypher analíticas
+-- Cada arquivo .cypher deve conter uma consulta nomeada com comentários.
