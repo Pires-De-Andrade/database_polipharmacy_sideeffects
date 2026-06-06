@@ -200,4 +200,4 @@ RETURN path;
 - [STITCH Database](http://stitch.embl.de/)
 - [SIDER — Side Effect Resource](http://sideeffects.embl.de/)
 
-Projeto acadêmico — uso educacional.
+Projeto acadêmico, o uso e desenvolvimento é educacional
