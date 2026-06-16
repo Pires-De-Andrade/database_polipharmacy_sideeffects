@@ -143,8 +143,17 @@ O script:
 ### Neo4j (carga de grafos)
 
 ```bash
-# (ainda não implementado — próxima etapa)
+# Carga completa (pode levar alguns minutos para o combo)
 python etl/load_graph.py
+
+# Teste rápido com amostra de 1000 linhas por CSV
+python etl/load_graph.py --sample 1000
+
+# Pular o combo (4.65M arestas) para testes
+python etl/load_graph.py --skip-combo
+
+# Pular criação de constraints (se já existirem)
+python etl/load_graph.py --no-constraints
 ```
 
 ## Modelo de Dados
