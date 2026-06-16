@@ -93,7 +93,7 @@ def validate_postgresql():
         for table in tables:
             cur.execute(f"SELECT COUNT(*) FROM {table}")  # noqa: S608
             count = cur.fetchone()[0]
-            status = "" if count > 0 else "  ← VAZIO!"
+            status = "" if count > 0 else "  <-- VAZIO!"
             print(f"  {table:<{COL_LABEL}} : {count:>{COL_COUNT},} registros{status}")
             if count == 0:
                 has_zero = True
@@ -153,7 +153,7 @@ def validate_neo4j():
             for label in node_labels:
                 result = session.run(f"MATCH (n:{label}) RETURN count(n) AS c")
                 count = result.single()["c"]
-                status = "" if count > 0 else "  ← VAZIO!"
+                status = "" if count > 0 else "  <-- VAZIO!"
                 print(f"  :{label:<{COL_LABEL - 1}} : {count:>{COL_COUNT},} nós{status}")
                 if count == 0:
                     has_zero = True
@@ -162,7 +162,7 @@ def validate_neo4j():
             for rel in rel_types:
                 result = session.run(f"MATCH ()-[r:{rel}]->() RETURN count(r) AS c")
                 count = result.single()["c"]
-                status = "" if count > 0 else "  ← VAZIO!"
+                status = "" if count > 0 else "  <-- VAZIO!"
                 print(f"  :{rel:<{COL_LABEL - 1}} : {count:>{COL_COUNT},} arestas{status}")
                 if count == 0:
                     has_zero = True
