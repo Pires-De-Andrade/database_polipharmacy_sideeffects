@@ -209,8 +209,4 @@ RETURN path;
 - [STITCH Database](http://stitch.embl.de/)
 - [SIDER — Side Effect Resource](http://sideeffects.embl.de/)
 
-<<<<<<< HEAD
-Projeto acadêmico — uso educacional.
-=======
-Projeto acadêmico, o uso e desenvolvimento é educacional
->>>>>>> ec4888d4882c2fa6b7157890491a7894eecd11c7
+Projeto de Banco de Dados
