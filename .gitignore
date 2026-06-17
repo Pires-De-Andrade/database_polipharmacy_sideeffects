@@ -47,3 +47,8 @@ neo4j_import/
 # --- Logs ---
 *.log
 logs/
+
+# --- Jupyter & Visualização ---
+.ipynb_checkpoints/
+*.html
+lib/
