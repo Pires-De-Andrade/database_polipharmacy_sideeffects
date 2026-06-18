@@ -26,6 +26,8 @@ env/
 .env
 .env.*
 *.env
+# ... mas versiona os modelos de exemplo
+!.env.example
 
 # --- Dumps de banco ---
 *.dump
