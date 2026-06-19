@@ -52,5 +52,14 @@ logs/
 
 # --- Jupyter & Visualização ---
 .ipynb_checkpoints/
-*.html
+demo_grafos.html
+notebooks/*.html
 lib/
+
+# --- Streamlit ---
+.streamlit/secrets.toml
+
+# --- Testes e Cobertura ---
+.pytest_cache/
+.coverage
+htmlcov/
