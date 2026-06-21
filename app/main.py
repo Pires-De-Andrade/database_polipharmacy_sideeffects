@@ -3,7 +3,7 @@ Ponto de entrada da aplicação Streamlit — Sistema de Consulta de Risco Farma
 
 Execução:
     cd <raiz do projecto>
-    streamlit run app/app.py
+    streamlit run app/main.py
 """
 import sys
 from pathlib import Path
