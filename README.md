@@ -1,96 +1,78 @@
-# Projeto de Banco de Dados
+# Projeto Acadêmico de Bancos de Dados: Polifarmácia
 
-Modelagem de efeitos colaterais de polifarmácia (uso simultâneo de múltiplos medicamentos) usando bancos relacional e de grafos.
+Modelagem de efeitos colaterais de polifarmácia (uso simultâneo de múltiplos medicamentos) usando uma abordagem **Dual-Paradigma** com bancos relacional (PostgreSQL) e de grafos (Neo4j).
 
-Baseado em: Zitnik et al. (2018). *"Modeling polypharmacy side effects with graph convolutional networks"*, Bioinformatics 34(13). Datasets do projeto [DECAGON/SNAP Stanford](http://snap.stanford.edu/decagon).
+Baseado no dataset do artigo: Zitnik et al. (2018). *"Modeling polypharmacy side effects with graph convolutional networks"*, Bioinformatics 34(13). [DECAGON/SNAP Stanford](http://snap.stanford.edu/decagon).
 
-## Visão Geral
+---
+
+## 🎯 Visão Geral
+
+O entregável principal deste projeto é o **Sistema de Consulta de Risco Farmacológico**, uma aplicação web desenvolvida em Streamlit que demonstra o contraste e a complementaridade entre os paradigmas relacional e de grafos.
 
 | Componente | Tecnologia |
 |-----------|-----------|
-| Banco relacional | PostgreSQL 16 |
-| Banco de grafos | Neo4j 5 Community |
-| ETL | Python 3.11+ (pandas, psycopg2, neo4j) |
-| Versionamento | Git/GitHub |
+| **Frontend/App** | Streamlit, Plotly, Pyvis |
+| **Banco Relacional** | PostgreSQL 16 |
+| **Banco de Grafos** | Neo4j 5 Community |
+| **ETL / Backend** | Python 3.11+ (pandas, psycopg2, neo4j) |
 
-## Estrutura do Projeto
+---
 
-```
+## 📂 Estrutura do Projeto
+
+```text
 projeto-bd-polifarmacia/
-├── README.md                          # ← este arquivo
-├── .gitignore
-├── data/                              # CSVs do DECAGON (não versionados)
-│   ├── bio-decagon-ppi.csv
-│   ├── bio-decagon-targets.csv
-│   ├── bio-decagon-combo.csv
-│   ├── bio-decagon-mono.csv
-│   └── bio-decagon-effectcategories.csv
-├── sql/
-│   ├── schema.sql                     # DDL — CREATE TABLE, constraints
-│   ├── indexes.sql                    # Índices de performance
-│   ├── views.sql                      # Views analíticas
-│   └── queries/                       # Consultas SQL avulsas
-├── cypher/
-│   ├── constraints.cypher             # Constraints Neo4j
-│   └── queries/                       # Consultas Cypher avulsas
-├── etl/
-│   ├── requirements.txt               # Dependências Python
+├── app/                               # Aplicação Streamlit
+│   ├── main.py                        # Ponto de entrada da aplicação
+│   ├── backend/                       # Conexões e loaders de queries
+│   ├── frontend/                      # Componentes visuais e layout
+│   └── utils/                         # Utilitários (ex: timer)
+├── cypher/                            # Scripts Neo4j
+│   ├── constraints.cypher             # Índices e constraints
+│   └── queries/                       # Consultas Cypher (usadas na app e testes)
+├── sql/                               # Scripts PostgreSQL
+│   ├── schema.sql                     # Tabelas e restrições
+│   ├── indexes.sql                    # Otimização de performance
+│   └── queries/                       # Consultas SQL (usadas na app e analíticas)
+├── etl/                               # Pipeline de Ingestão de Dados
 │   ├── load_relational.py             # ETL → PostgreSQL
 │   └── load_graph.py                  # ETL → Neo4j
-└── docs/
-    └── schema.md                      # Documentação do modelo de dados
+├── data/                              # CSVs do DECAGON (não versionados)
+├── requirements.txt                   # Dependências do projeto
+└── README.md                          # Documentação principal
 ```
 
-## Configuração do Ambiente
+---
+
+## 🚀 Como Executar o Projeto
 
 ### 1. Pré-requisitos
+- Python 3.11+
+- PostgreSQL 16
+- Neo4j 5 Community
 
-- **Python 3.11+**: [Download](https://www.python.org/downloads/)
-- **PostgreSQL 16**: [Download](https://www.postgresql.org/download/)
-- **Neo4j 5 Community**: [Download](https://neo4j.com/download/)
+### 2. Configurar o Ambiente
 
-### 2. Clonar o repositório
+Clone o repositório e crie o ambiente virtual:
 
 ```bash
 git clone https://github.com/seu-usuario/projeto-bd-polifarmacia.git
 cd projeto-bd-polifarmacia
-```
 
-### 3. Baixar os datasets
-
-Faça download dos CSVs do DECAGON e coloque-os na pasta `data/`:
-
-```bash
-mkdir -p data
-cd data
-# Baixar de http://snap.stanford.edu/decagon
-# Arquivos necessários:
-#   bio-decagon-ppi.csv
-#   bio-decagon-targets.csv
-#   bio-decagon-combo.csv
-#   bio-decagon-mono.csv
-#   bio-decagon-effectcategories.csv
-cd ..
-```
-
-### 4. Ambiente virtual Python
-
-```bash
-python -m venv venv
+python -m venv .venv
 
 # Windows
-venv\Scripts\activate
+.\.venv\Scripts\activate
 
 # Linux/macOS
-source venv/bin/activate
+source .venv/bin/activate
 
-pip install -r etl/requirements.txt
+# Instalar dependências
+pip install -r requirements.txt
 ```
 
-### 5. Configurar variáveis de ambiente
-
-Crie um arquivo `.env` na raiz do projeto:
-
+Crie um arquivo `.env` na raiz do projeto com as suas credenciais:
 ```env
 # PostgreSQL
 PG_HOST=localhost
@@ -105,108 +87,41 @@ NEO4J_USER=neo4j
 NEO4J_PASSWORD=sua_senha_aqui
 ```
 
-### 6. Criar o banco PostgreSQL
+### 3. Carga de Dados (ETL)
+
+Crie o banco de dados PostgreSQL (`createdb polifarmacia`) e certifique-se de que o Neo4j está a correr.
+Coloque os ficheiros CSV do Decagon na pasta `data/` e corra os scripts de ETL:
 
 ```bash
-# Via psql
-createdb polifarmacia
-
-# Ou via SQL
-psql -U postgres -c "CREATE DATABASE polifarmacia;"
-```
-
-## Carga de Dados
-
-### PostgreSQL (carga relacional)
-
-```bash
-# Carga completa (pode levar alguns minutos para o combo.csv)
+# Carga Relacional (PostgreSQL)
 python etl/load_relational.py
 
-# Teste rápido com amostra de 1000 linhas por CSV
-python etl/load_relational.py --sample 1000
-
-# Pular o combo (4.65M linhas) para testes
-python etl/load_relational.py --skip-combo
-
-# Pular criação do schema (se já existir)
-python etl/load_relational.py --no-schema
+# Carga de Grafos (Neo4j)
+python etl/load_graph.py
 ```
+*(Nota: a carga do ficheiro combo.csv pode demorar alguns minutos devido ao elevado volume de dados - 4.65M registos).*
 
-O script:
-1. Executa `sql/schema.sql` e `sql/indexes.sql`
-2. Carrega entidades base: `side_effect`, `drug`, `protein`
-3. Carrega relacionamentos: `drug_protein_target`, `protein_interaction`
-4. Carrega efeitos: `drug_mono_effect`, `drug_combination_effect`
-5. Exibe resumo de contagens ao final
+### 4. Executar a Aplicação (Frontend)
 
-### Neo4j (carga de grafos)
+Com a base de dados populada, inicie a interface de consulta clínica:
 
 ```bash
-# Carga completa (pode levar alguns minutos para o combo)
-python etl/load_graph.py
-
-# Teste rápido com amostra de 1000 linhas por CSV
-python etl/load_graph.py --sample 1000
-
-# Pular o combo (4.65M arestas) para testes
-python etl/load_graph.py --skip-combo
-
-# Pular criação de constraints (se já existirem)
-python etl/load_graph.py --no-constraints
+streamlit run app/main.py
 ```
+A aplicação abrirá automaticamente no seu navegador padrão (geralmente `http://localhost:8501`).
 
-## Modelo de Dados
+---
 
-Consulte a documentação completa em [`docs/schema.md`](docs/schema.md).
+## 💡 O Paradigma Dual
 
-### Resumo dos Datasets
+A aplicação apresenta três abas que ilustram a arquitectura do projeto:
+1. **Perfil de Risco (PostgreSQL):** Excelente para navegação estruturada, agrupar efeitos colaterais e calcular contagens exactas. Responde ao **quê** e **com que frequência**.
+2. **Contexto Molecular (Neo4j):** Excelente para travessia de dados complexos, revelando a vizinhança molecular e as proteínas-alvo partilhadas pelos medicamentos. Responde ao **porquê** da interacção.
+3. **Comparação de Paradigmas:** Exibe as queries exactas que a aplicação gerou em tempo real e compara a latência de execução entre o motor SQL e o Cypher.
 
-| Dataset | Registros | Descrição |
-|---------|----------|-----------|
-| PPI | 719.402 | Interações proteína-proteína |
-| Targets | 18.596 | Droga → proteína-alvo |
-| Combo (TWOSIDES) | ~4.651.131 | Efeitos de pares de drogas |
-| Mono (SIDER/OFFSIDES) | ~487.000 | Efeitos de drogas individuais |
-| Effect Categories | 964 | Classificação dos efeitos |
-
-## Queries de Exemplo
-
-### PostgreSQL
-
-```sql
--- Top 10 efeitos colaterais mais frequentes em combinações de drogas
-SELECT se.name, se.category, COUNT(*) AS freq
-FROM drug_combination_effect dce
-JOIN side_effect se ON dce.se_id = se.se_id
-GROUP BY se.name, se.category
-ORDER BY freq DESC
-LIMIT 10;
-
--- Drogas com mais alvos proteicos
-SELECT d.stitch_id, COUNT(*) AS n_targets
-FROM drug_protein_target dpt
-JOIN drug d ON dpt.drug_id = d.drug_id
-GROUP BY d.stitch_id
-ORDER BY n_targets DESC
-LIMIT 10;
-```
-
-### Cypher (Neo4j)
-
-```cypher
-// Caminho mais curto entre duas drogas via proteínas compartilhadas
-MATCH path = shortestPath(
-  (d1:Drug {stitch_id:'CID000002173'})-[*]-(d2:Drug {stitch_id:'CID000003345'})
-)
-RETURN path;
-```
-
-## Referências
+## 📚 Referências
 
 - Zitnik, M., Agrawal, M., & Leskovec, J. (2018). *Modeling polypharmacy side effects with graph convolutional networks*. Bioinformatics, 34(13), i457–i466.
 - [DECAGON — SNAP Stanford](http://snap.stanford.edu/decagon)
 - [STITCH Database](http://stitch.embl.de/)
 - [SIDER — Side Effect Resource](http://sideeffects.embl.de/)
-
-Projeto de Banco de Dados
