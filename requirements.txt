@@ -1,0 +1,12 @@
+# ==============================================================================
+# Projeto BD Polifarmácia — Dependências da app Streamlit
+# Instalar com: pip install -r app/requirements.txt
+# ==============================================================================
+
+streamlit>=1.40.0          # framework de UI
+psycopg2-binary>=2.9.9     # driver PostgreSQL
+neo4j>=5.20.0              # driver Neo4j
+pandas>=2.2.0              # DataFrames
+python-dotenv>=1.0.0       # leitura do .env
+pyvis>=0.3.2               # grafos interativos (HTML/vis.js)
+plotly>=5.20.0              # gráficos comparativos (Tab 3)
