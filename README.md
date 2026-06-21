@@ -6,7 +6,7 @@ Baseado no dataset do artigo: Zitnik et al. (2018). *"Modeling polypharmacy side
 
 ---
 
-## 🎯 Visão Geral
+## Visão Geral
 
 O entregável principal deste projeto é o **Sistema de Consulta de Risco Farmacológico**, uma aplicação web desenvolvida em Streamlit que demonstra o contraste e a complementaridade entre os paradigmas relacional e de grafos.
 
@@ -19,7 +19,7 @@ O entregável principal deste projeto é o **Sistema de Consulta de Risco Farmac
 
 ---
 
-## 📂 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```text
 projeto-bd-polifarmacia/
@@ -45,7 +45,7 @@ projeto-bd-polifarmacia/
 
 ---
 
-## 🚀 Como Executar o Projeto
+## Como Executar o Projeto
 
 ### 1. Pré-requisitos
 - Python 3.11+
@@ -112,16 +112,18 @@ A aplicação abrirá automaticamente no seu navegador padrão (geralmente `http
 
 ---
 
-## 💡 O Paradigma Dual
+## O Paradigma Dual
 
 A aplicação apresenta três abas que ilustram a arquitectura do projeto:
 1. **Perfil de Risco (PostgreSQL):** Excelente para navegação estruturada, agrupar efeitos colaterais e calcular contagens exactas. Responde ao **quê** e **com que frequência**.
 2. **Contexto Molecular (Neo4j):** Excelente para travessia de dados complexos, revelando a vizinhança molecular e as proteínas-alvo partilhadas pelos medicamentos. Responde ao **porquê** da interacção.
 3. **Comparação de Paradigmas:** Exibe as queries exactas que a aplicação gerou em tempo real e compara a latência de execução entre o motor SQL e o Cypher.
 
-## 📚 Referências
+## Referências
 
 - Zitnik, M., Agrawal, M., & Leskovec, J. (2018). *Modeling polypharmacy side effects with graph convolutional networks*. Bioinformatics, 34(13), i457–i466.
 - [DECAGON — SNAP Stanford](http://snap.stanford.edu/decagon)
 - [STITCH Database](http://stitch.embl.de/)
 - [SIDER — Side Effect Resource](http://sideeffects.embl.de/)
+
+*Projeto Final de Banco de Dados*
