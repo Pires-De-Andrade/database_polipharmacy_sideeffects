@@ -48,6 +48,8 @@ def analyze_drug_pair(drug_a_id: int, drug_b_id: int) -> dict:
         "found": False,
         "drug_a_id": drug_a_id,
         "drug_b_id": drug_b_id,
+        "stitch_a": None,
+        "stitch_b": None,
     }
 
     # ── SQL: Carregar texto da query ──────────────────────────────────────
@@ -88,6 +90,8 @@ def analyze_drug_pair(drug_a_id: int, drug_b_id: int) -> dict:
     try:
         stitch_a = _get_stitch_id(drug_a_id)
         stitch_b = _get_stitch_id(drug_b_id)
+        result["stitch_a"] = stitch_a
+        result["stitch_b"] = stitch_b
 
         if stitch_a and stitch_b:
             with QueryTimer() as cypher_timer:

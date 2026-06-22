@@ -20,6 +20,7 @@ from app.frontend.components.selector import render_selector
 from app.frontend.components.risk_profile import render_risk_profile
 from app.frontend.components.molecular_graph import render_molecular_graph
 from app.frontend.components.paradigm_compare import render_paradigm_compare
+from app.frontend.components.indirect_ppi import render_indirect_ppi
 from app.backend.analysis import analyze_drug_pair
 from app.backend.connections.postgres import pg_status
 from app.backend.connections.neo4j_db import neo4j_status
@@ -74,10 +75,15 @@ if not pg_ok:
 drug_a_id, drug_b_id, should_analyze = render_selector()
 
 # ── Análise ───────────────────────────────────────────────────────────────
+# O resultado é guardado em session_state para sobreviver aos reruns do
+# Streamlit (ex: clicar no "⋮"). Sem isto, qualquer interacção que não seja
+# o botão "Analisar" faria a tela de resultados desaparecer.
 if should_analyze and drug_a_id is not None and drug_b_id is not None:
     with st.spinner("Analisando combinação nos dois paradigmas…"):
-        result = analyze_drug_pair(drug_a_id, drug_b_id)
+        st.session_state["analysis_result"] = analyze_drug_pair(drug_a_id, drug_b_id)
 
+result = st.session_state.get("analysis_result")
+if result is not None:
     if not result["found"]:
         st.markdown(
             '<div class="not-found-panel">'
@@ -86,18 +92,39 @@ if should_analyze and drug_a_id is not None and drug_b_id is not None:
             unsafe_allow_html=True,
         )
     else:
+        # ── Menu "⋮": revela aba experimental escondida ───────────────
+        # A aba de Interação Indireta (PPI) só aparece se o utilizador
+        # carregar no "⋮". Mantém-se escondida por defeito porque é
+        # experimental — só se mostra na apresentação se funcionar bem.
+        _, col_dots = st.columns([20, 1])
+        with col_dots:
+            if st.button("⋮", key="toggle_experimental",
+                         help="Mostrar/ocultar funcionalidades experimentais"):
+                st.session_state["show_experimental"] = \
+                    not st.session_state.get("show_experimental", False)
+
+        show_exp = st.session_state.get("show_experimental", False)
+
         # ── Tabs ──────────────────────────────────────────────────────
-        tab1, tab2, tab3 = st.tabs([
+        tab_labels = [
             "📊 Perfil de Risco",
             "🧬 Contexto Molecular",
             "⚖️ Comparação de Paradigmas",
-        ])
+        ]
+        if show_exp:
+            tab_labels.append("🧪 Interação Indireta (PPI)")
 
-        with tab1:
+        tabs = st.tabs(tab_labels)
+
+        with tabs[0]:
             render_risk_profile(result)
 
-        with tab2:
+        with tabs[1]:
             render_molecular_graph(result)
 
-        with tab3:
+        with tabs[2]:
             render_paradigm_compare(result)
+
+        if show_exp:
+            with tabs[3]:
+                render_indirect_ppi(result)
