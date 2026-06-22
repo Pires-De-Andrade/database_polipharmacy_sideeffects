@@ -61,6 +61,15 @@ with st.sidebar:
     st.caption("Dados: DECAGON / SNAP Stanford")
     st.caption("Projecto académico — Bases de Dados 2025")
 
+if not pg_ok:
+    st.error("Não foi possível conectar ao PostgreSQL.")
+    st.info(
+        "Crie um arquivo `.env` na raiz do projeto com `PG_HOST`, `PG_PORT`, "
+        "`PG_DBNAME`, `PG_USER` e `PG_PASSWORD` corretos. Sem essa conexão, "
+        "a lista de medicamentos não pode ser carregada."
+    )
+    st.stop()
+
 # ── Selecção de medicamentos ──────────────────────────────────────────────
 drug_a_id, drug_b_id, should_analyze = render_selector()
 
