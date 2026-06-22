@@ -5,12 +5,22 @@ import streamlit as st
 import pandas as pd
 
 from app.backend.queries.sql_loader import run_sql
+from app.backend.drug_names import load_drug_names
 
 
 @st.cache_data(ttl=3600, show_spinner="Carregando lista de medicamentos…")
 def _load_drug_list() -> pd.DataFrame:
     """Carrega a lista de medicamentos do PostgreSQL com cache de 1h."""
-    return run_sql("streamlit_drug_list.sql")
+    df = run_sql("streamlit_drug_list.sql")
+    if df.empty:
+        return df
+
+    # Sobrepõe o label com o nome resolvido via PubChem; cai no stitch_id
+    # quando o nome não foi resolvido (mantém o comportamento anterior).
+    names = load_drug_names()
+    df["label"] = df["stitch_id"].map(names).fillna(df["label"])
+    df = df.sort_values("label", kind="stable", key=lambda s: s.str.lower())
+    return df
 
 
 def render_selector() -> tuple[int | None, int | None, bool]:

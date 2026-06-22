@@ -11,6 +11,7 @@ import pandas as pd
 from app.backend.queries.sql_loader import load_sql, run_sql
 from app.backend.queries.cypher_loader import load_cypher, run_cypher
 from app.backend.connections.postgres import get_pg_connection
+from app.backend.drug_names import resolve_name
 from app.utils.timer import QueryTimer
 
 
@@ -102,14 +103,16 @@ def analyze_drug_pair(drug_a_id: int, drug_b_id: int) -> dict:
                 excl_a = rec.get("exclusive_a_proteins", [])
                 excl_b = rec.get("exclusive_b_proteins", [])
                 result["shared_proteins"] = len(shared)
+                stitch_a_g = rec.get("drug_a_stitch", stitch_a)
+                stitch_b_g = rec.get("drug_b_stitch", stitch_b)
                 result["graph_data"] = {
                     "drug_a": {
-                        "stitch_id": rec.get("drug_a_stitch", stitch_a),
-                        "name": rec.get("drug_a_name", stitch_a),
+                        "stitch_id": stitch_a_g,
+                        "name": resolve_name(stitch_a_g, rec.get("drug_a_name")),
                     },
                     "drug_b": {
-                        "stitch_id": rec.get("drug_b_stitch", stitch_b),
-                        "name": rec.get("drug_b_name", stitch_b),
+                        "stitch_id": stitch_b_g,
+                        "name": resolve_name(stitch_b_g, rec.get("drug_b_name")),
                     },
                     "shared_proteins": shared,
                     "exclusive_a_proteins": excl_a,
