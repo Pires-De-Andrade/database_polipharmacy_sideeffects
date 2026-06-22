@@ -115,9 +115,9 @@ A aplicação abrirá automaticamente no seu navegador padrão (geralmente `http
 ## O Paradigma Dual
 
 A aplicação apresenta três abas que ilustram a arquitectura do projeto:
-1. **Perfil de Risco (PostgreSQL):** Excelente para navegação estruturada, agrupar efeitos colaterais e calcular contagens exactas. Responde ao **quê** e **com que frequência**.
+1. **Perfil de Risco (PostgreSQL):** Excelente para navegação estruturada, agrupar efeitos colaterais e calcular contagens exatas. Responde ao **quê** e **com que frequência**.
 2. **Contexto Molecular (Neo4j):** Excelente para travessia de dados complexos, revelando a vizinhança molecular e as proteínas-alvo partilhadas pelos medicamentos. Responde ao **porquê** da interacção.
-3. **Comparação de Paradigmas:** Exibe as queries exactas que a aplicação gerou em tempo real e compara a latência de execução entre o motor SQL e o Cypher.
+3. **Comparação de Paradigmas:** Exibe as queries exatas que a aplicação gerou em tempo real e compara a latência de execução entre o motor SQL e o Cypher.
 
 ## Referências
 
